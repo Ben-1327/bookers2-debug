@@ -23,12 +23,45 @@
 					</td>
 					<td><%= link_to @book.title, @book %></td>
 					<td><%= @book.body %></td>
+					<td></td>
+					<td><%= link_to "コメント数：#{@book.book_comments.count}", book_path(@book) %></td>
 					<% if @user.id == current_user.id %>
 						<td><%= link_to "Edit",edit_book_path(@book), class: "btn-sm btn-success edit_book_#{@book.id}" %></td>
 						<td><%= link_to "Destroy",@book, method: :delete, data: {confirm: "本当に削除してもよろしいですか？"}, class: "btn-sm btn-danger destroy_book_#{@book.id}" %></td>
 					<% end %>
 				</tr>
 			</table>
+			<% @book.book_comments.each do |book_comment| %>
+				<table class="comment">
+					<tr>
+						<td><%=link_to book_comment.user.name, user_path(@user) %></td>
+ 						<td><%= book_comment.comment %></td>
+						<% if book_comment.user == current_user %>
+							<td><%= link_to "Destroy", book_book_comments_path(book_comment), method: :delete, data: {confirm: "本当に削除してもよろしいですか？"}, class: "btn-sm btn-danger destroy_book_#{@comment.id}" %></td>
+						<% end %>
+					</tr>
+				 </table>
+	 	 	<% end %>
 
+			<% if @comment.errors.any? %>
+				<div id="error_explanation">
+					<h2><%= @comment.errors.count %>errors commented this obj from being saved:</h2>
+					<ul>
+						<% @comment.errors.full_messages.each do |message| %>
+							<li><%= message %></li>
+						<% end %>
+					</ul>
+				</div>
+			<% end %>
+
+			<%= form_for [@book, @comment] do |f| %>
+    		<div class="row">
+        	<div class="col-sm-12">
+            <%= f.text_area :comment, rows:'5', class: "form-control",placeholder: "コメントをここに" %>
+        	</div>
+    		</div>
+    		<%= f.submit "送信する", class: "btn btn-lg btn-base-1 mt-20 pull-right" %>
+			</li>
+			<% end %>
 	</div>
 </div>
