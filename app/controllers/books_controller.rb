@@ -6,6 +6,7 @@ class BooksController < ApplicationController
   	@book = Book.find(params[:id])
     @user = @book.user
     @comment = BookComment.new
+    @comments = @item.comments.order(created_at: :desc)
   end
 
   def index
