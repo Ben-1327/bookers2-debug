@@ -22,6 +22,7 @@ class BookCommentsController < ApplicationController
   	@comment.destroy
   	redirect_to book_path(@book), notice: "successfully delete comment!"
   end
+  
 
   private
   def book_comment_params
