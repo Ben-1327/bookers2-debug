@@ -16,13 +16,15 @@ class BookCommentsController < ApplicationController
     end
   end
 
+  
+
   def destroy
     @comment = BookComment.find(params[:book_id])
     @book = @comment.book_id
   	@comment.destroy
   	redirect_to book_path(@book), notice: "successfully delete comment!"
   end
-  
+
 
   private
   def book_comment_params
